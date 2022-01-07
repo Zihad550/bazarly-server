@@ -20,7 +20,7 @@ async function run() {
 
     const database = client.db("bazarly");
     const catagoriesCollection = database.collection("catagories");
-    const shoesCollection = database.collection("shoes");
+    const productsCollection = database.collection("products");
     const brandsCollection = database.collection("brands");
 
     // get catagories
@@ -30,8 +30,9 @@ async function run() {
     });
 
     // get shoes
-    app.get("/shoes", async (req, res) => {
-      const result = await shoesCollection.find({}).toArray();
+    app.get("/products", async (req, res) => {
+      const category = req.query.category;
+      const result = await productsCollection.find({ category }).toArray();
       res.json(result);
     });
 
