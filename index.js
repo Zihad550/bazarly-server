@@ -22,6 +22,7 @@ async function run() {
     const catagoriesCollection = database.collection("catagories");
     const productsCollection = database.collection("products");
     const brandsCollection = database.collection("brands");
+    const cartCollection = database.collection("cart");
 
     // get catagories
     app.get("/catagories", async (req, res) => {
@@ -29,7 +30,7 @@ async function run() {
       res.json(result);
     });
 
-    // get shoes
+    // get products
     app.get("/products", async (req, res) => {
       const category = req.query.category;
       const result = await productsCollection.find({ category }).toArray();
@@ -39,6 +40,22 @@ async function run() {
     // get brands
     app.get("/brands", async (req, res) => {
       const result = await brandsCollection.find({}).toArray();
+      res.json(result);
+    });
+
+    // get product
+    app.get("/products/product", async (req, res) => {
+      const id = req.query.id;
+      const result = await productsCollection
+        .find({ _id: ObjectId(id) })
+        .toArray();
+      res.json(result);
+    });
+
+    // add cart data
+    app.post("/cart", async (req, res) => {
+      const product = req.body;
+      const result = await cartCollection.insertOne(product);
       res.json(result);
     });
   } finally {
