@@ -58,6 +58,13 @@ async function run() {
       const result = await cartCollection.insertOne(product);
       res.json(result);
     });
+
+    // get product from cart
+    app.get("/cart/product", async (req, res) => {
+      const email = req.query.email;
+      const result = await cartCollection.find({ userEmail: email }).toArray();
+      res.json(result);
+    });
   } finally {
   }
 }
