@@ -65,6 +65,13 @@ async function run() {
       const result = await cartCollection.find({ userEmail: email }).toArray();
       res.json(result);
     });
+
+    // delete product from cart
+    app.delete("/cart", async (req, res) => {
+      const id = req.query.id;
+      const result = await cartCollection.deleteOne({ _id: ObjectId(id) });
+      res.json(result);
+    });
   } finally {
   }
 }
